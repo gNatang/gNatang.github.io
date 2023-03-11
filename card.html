@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+            display: flex;
+            width: 800px;
+            margin: 120px auto;
+        }
+        .box div{
+            transform-style: preserve-3d;
+            perspective: 800px;
+            width: 300px;
+        }
+        img {
+            transition: all .3s;
+            width: 100%;
+        }
+        .card-right{
+            position: relative;
+            left: 200px;
+        }
+        .card-right .img-title{
+            position: relative;
+            top: -120px;
+            left: 50%;
+            margin-left: -110px;
+            transition: all .5s;
+            width: 220px;
+            /* z-index: 99; */
+        }
+        .card-right .img-front{
+            position: relative;
+            top: -640px;
+            left: 0;
+            opacity: 0;
+            transition: all .5s;
+        }
+        .card-right:hover .img-front{
+           transform: translateY(-20px) translateZ(26px);
+           opacity: 1;
+        }
+        .card-right:hover .img-title{
+           /* transform: translateZ(38px); */
+           transform:translateZ(38px) translateY(-30px);
+        }
+        .card-left:hover .img1{
+           transform: rotateX(10deg);
+        }
+        .card-right:hover .img2{
+           transform: rotateX(10deg);
+        }
+        
+
+
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="card-left">
+            <img class="img1" src="./dark_rider-cover.jpg" alt="">
+        </div>
+        <div class="card-right">
+            <img class="img2" src="./force_mage-cover.jpg" alt="">
+            <img class="img-title" src="./force_mage-title.png" alt="">
+            <img class="img-front" src="./force_mage-character.webp" alt="">
+        </div>
+    </div>
+</body>
+
+</html>
