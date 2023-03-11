@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color</title>
+    <style>
+        body {
+            background-color: black;
+        }
+        .box .head {
+            color: white;
+            text-align: center;
+            height: 50px;
+            margin-top: -8px;
+            line-height: 50px;
+           background-color: rgba(0, 0, 0, .4);
+        }
+
+        .box .card{
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 800px;
+        }
+        .box .card .front {
+            color: white;
+            width: 260px;
+            height: 60px;
+            line-height: 60px;
+            border: 5px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 300px auto;
+            user-select: none;
+        }
+
+        .box .card .under {
+            background-color: white;
+            width: 260px;
+            height: 60px;
+            position: absolute;
+            top: 49px;
+            left: 630px;
+            transform: rotateX(-70deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="head">
+            Gradient Details Appear Here For Copy And Paste
+        </div>
+        <div class="card">
+            <div class="front">
+                <h5>CLICK FOR NEW GRADIENT</h5>
+            </div>
+            <div class="under">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // document.querySelector(".front").style.backgroundImage = "linear-gradient(#e66465, #9198e5)"
+        document.querySelector(".card").onclick = function () {
+            var colorRadom = 'rgb(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + '),' + 'rgb(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ')'
+            document.body.style.backgroundImage = "radial-gradient(at top left, "+colorRadom+")"
+            document.querySelector(".head").innerText = "radial-gradient(at top left, "+colorRadom+")"
+        }
+    </script>
+</body>
+
+</html>
