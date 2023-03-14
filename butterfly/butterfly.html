@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/animate.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 1100px;
+            height: 680px;
+            background-color: #ffffff;
+            margin: 20px auto;
+            display: flex;
+            position: relative;
+        }
+        .box img{
+            user-select: none;
+        }
+
+        .box .img-left img {
+            display: none;
+
+        }
+
+        .box .img-left {
+            padding: 20px;
+            padding-top: 46px;
+        }
+
+        .box .img-right img {
+            width: 170px;
+            padding-top: 5px;
+            user-select: none;
+            opacity: 0.4;
+        }
+
+        .box .img-right {
+            padding: 10px;
+            padding-left: 20px;
+            flex-direction: column;
+        }
+
+        .box .border {
+            width: 169px;
+            height: 122px;
+            position: absolute;
+            border: 3px solid darkred;
+            top: 13px;
+            right: 45px;
+        }
+
+        .box .border::before {
+            content: '';
+            width: 0;
+            height: 0;
+            position: absolute;
+            top: 54px;
+            left: -18px;
+            border: 8px solid #000;
+            border-style: solid dashed dashed;
+            border-color: transparent darkred transparent transparent;
+            /* 三个值分别是 上：左右：下*/
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="img-left">
+            <img draggable="false" src="./images/t1.png" style="display: block;">
+            <img draggable="false" src="./images/t2.png">
+            <img draggable="false" src="./images/t3.png">
+            <img draggable="false" src="./images/t4.png">
+            <img draggable="false" src="./images/t5.png">
+        </div>
+        <div class="img-right">
+            <img draggable="false" class="img1" src="./images/t1.png" style="opacity: 1;">
+            <img draggable="false" class="img2" src="./images/t2.png">
+            <img draggable="false" class="img3" src="./images/t3.png">
+            <img draggable="false" class="img4" src="./images/t4.png">
+            <img draggable="false" class="img5" src="./images/t5.png">
+        </div>
+        <div class="border">
+
+        </div>
+    </div>
+
+
+
+    <script>
+        // 获取dom对象
+        var imgsL = document.querySelectorAll(".img-left img")
+        var imgsR = document.querySelectorAll(".img-right img");
+        var border = document.querySelector(".border")
+        // 遍历imgsR
+        for (var i = 0; i < imgsR.length; i++) {
+            // 设置自定义属性
+            imgsR[i].dataset.index = i;
+            // 绑定imgsR的点击事件
+            imgsR[i].onclick = function () {
+                for (var j = 0; j < imgsR.length; j++) {
+                    // 隐藏所有大图
+                    imgsL[j].style.display = "none";
+                    // 将所有小图透明度设为0.4
+                    imgsR[j].style.opacity = "0.4"
+                }
+                // 将自定义属性赋值给index
+                var index = this.dataset.index;
+                // 显示当前大图
+                imgsL[index].style.display = "block"
+                // 将当前小图透明度改为1
+                imgsR[index].style.opacity = "1"
+                // 使用动画更改外部框的top值
+                animate(border, {
+                    "top": 13 + index * 131
+                })
+            }
+        }
+    </script>
+</body>
+
+</html>
