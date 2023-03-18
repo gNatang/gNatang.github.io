@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script>
+    <meta name="referrer" content="never">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <section class="all-label"></section>
+    <ul class="list">
+    </ul>
+
+    <script>
+        var query = {
+            styleId: -1,
+            areaId: -1,
+            isFinish: -1,
+            order: 0,
+            pageNum: 1,
+            pageSize: 39,
+            isFree: -1,
+        };
+        function getData(name, list, key, value) {
+            var $newUl = $("<ul></ul>");
+            $newUl.append($("<span class='title'>" + name + "</span>"))
+            $newUl.append($("<li class='active' data-id=" + value + " data-key=" + key + ">全部</li>"));
+            list.forEach(function (element, index) {
+                $newUl.append($("<li data-id=" + element.id + " data-key=" + key + ">" + element.name + "</li>"))
+            })
+            $("section.all-label").append($newUl);
+        }
+        $.get("https://apis.netstart.cn/bcomic/AllLabel", function (res) {
+            console.log(res)
+            getData("题材", res.data.styles, "styleId", -1);
+            getData("地区", res.data.areas, "areaId", -1);
+            getData("进度", res.data.status, "isFinish", -1);
+            getData("收费", res.data.prices, "isFree", -1);
+            getData("排序", res.data.orders, "order", 0);
+            $(".all-label ul li").click(function () {
+                query[$(this).data("key")] = $(this).data("id")
+                // console.log(query[$(this).data("key")])
+                $(this).addClass("active").siblings().removeClass("active")
+
+                $(".list").html("");
+
+                getAjax(query);
+            })
+        })
+        getAjax(query);
+
+        function getAjax(query) {
+            $.ajax({
+                type: "GET",
+                url: "https://apis.netstart.cn/bcomic/ClassPage",
+                data: query,
+                beforeSend: function () {
+                    $(".list").html('<img src="./images/sample.gif" class="login-img">')
+                },
+                success: function (res) {
+                    $(".list").html('')
+                    console.log(res.data)
+                    res.data.forEach(function (ele) {
+                        $(".list").append("<li><a href='https://manga.bilibili.com/detail/mc" + ele.season_id + "?from=manga_index'><img src='" + ele.vertical_cover + "'><p>" + ele.title + "</p></a></li>");
+                    });
+                },
+                error: function (err) {
+                    // 如果网络断开或者http响应状态码为200,那么将认为是请求失败
+                    $(".list").html('<img class="not-find" src="./images/no-find.png"/>')
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

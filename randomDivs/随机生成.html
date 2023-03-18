@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        // 封装随机颜色函数
+        function randomColor() {
+            return Math.random().toString(16).substr(2, 6);
+        }
+        // 获取body
+        var tb = document.body;
+        // 获取html页面的高度
+        var ymHeight = window.innerHeight;
+        // console.log(ymHeight);
+        // 将高度赋值给body
+        tb.style.height = ymHeight + "px";
+        // body的点击事件
+        tb.onclick = function (e) {
+            // 新增div标签
+            var divs = document.createElement("div");
+            // 给div加随机颜色
+            divs.style.backgroundColor = "#" + randomColor();
+            // 设置div的绝对定位
+            divs.style.top = (e.pageY - 25) + "px";
+            divs.style.left = (e.pageX - 25) + "px";
+            // 完成增加div
+            tb.appendChild(divs);
+            // 获取body的子元素
+            var del = tb.children;
+            // 遍历除script的div
+            for (var i = 2; i < del.length; i++) {
+                // console.log(del);
+                // 绑定删除点击事件
+                del[i].onclick = function (e) {
+                    // 隐藏点击的div
+                    this.style.display = "none";
+                    // 阻止冒泡
+                    e.stopPropagation();
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

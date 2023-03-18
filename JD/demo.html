@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            vertical-align: bottom;
+        }
+
+        .box {
+            width: 1000px;
+            margin: 50px auto;
+        }
+
+        .box .box-left {
+            width: 450px;
+            height: 450px;
+            border: 1px solid #eeeeee;
+            float: left;
+        }
+
+        .box .box-left .middle-box {
+            width: 450px;
+            height: 450px;
+            position: relative;
+        }
+
+        .box .box-left .middle-box .mask {
+            width: 300px;
+            height: 300px;
+            background: #fede4f;
+            opacity: 0.5;
+            cursor: move;
+            border: 1px solid #aaa;
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: none;
+        }
+
+        .box .box-left .small-box {
+            /* 开启弹性布局 */
+            display: flex;
+            /* 主轴方式对齐方式 */
+            justify-content: space-between;
+            /* 侧轴方向项目对齐方式 */
+            align-items: center;
+            margin-top: 19px;
+            height: 58px;
+            padding: 0 5px;
+            /* 改变盒子模型 内减模式 */
+            box-sizing: border-box;
+        }
+
+        .box .box-left .small-box .arrow-left,
+        .box .box-left .small-box .arrow-right {
+            font-size: 30px;
+            font-weight: bold;
+            font-family: "仿宋";
+            cursor: pointer;
+            user-select: none;
+            color: #cccccc;
+        }
+
+        .box .box-left .small-box .arrow-left:hover,
+        .box .box-left .small-box .arrow-right:hover {
+            color: #999999
+        }
+
+        .box .box-left .small-box .imgListBox {
+            width: 375px;
+            overflow: hidden;
+        }
+
+        .box .box-left .small-box .imgListBox .imgList {
+            width: 750px;
+            display: flex;
+            /* CSS3过渡属性 后续课程会讲 */
+            /* transition: margin-left 0.3s; */
+        }
+
+        .box .box-left .small-box .imgListBox .imgList img {
+            border: 2px solid transparent;
+            margin-left: 9px;
+            margin-right: 9px;
+        }
+
+        .box .box-left .small-box .imgListBox .imgList img.active {
+            border-color: #e53e41;
+        }
+
+
+
+        .box .box-right {
+            width: 540px;
+            height: 540px;
+            border: 1px solid #eeeeee;
+            float: left;
+            overflow: hidden;
+            display: none;
+
+            position: relative;
+        }
+
+        .box .box-right .bigImg {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 大盒子 -->
+    <div class="box">
+        <!-- 左盒子 -->
+        <div class="box-left">
+            <!-- 上部分 中图盒子-->
+            <div class="middle-box">
+                <!-- 中图 -->
+                <img src="./images/middle/01.jpg" class="middleImg" />
+                <!-- 遮罩层 -->
+                <div class="mask"></div>
+            </div>
+
+            <!-- 下部分 小图列表盒子-->
+            <div class="small-box">
+                <!-- 左箭头 -->
+                <span class="arrow-left">&lt;</span>
+
+                <!-- 小图列表 -->
+                <div class="imgListBox">
+                    <div class="imgList">
+                        <img src="./images/small/01.jpg" class="active" />
+                        <img src="./images/small/02.jpg" />
+                        <img src="./images/small/03.jpg" />
+                        <img src="./images/small/04.jpg" />
+                        <img src="./images/small/05.jpg" />
+                        <img src="./images/small/06.jpg" />
+                        <img src="./images/small/07.jpg" />
+                        <img src="./images/small/08.jpg" />
+                        <img src="./images/small/09.jpg" />
+                    </div>
+                </div>
+
+                <!-- 右箭头 -->
+                <span class="arrow-right">&gt;</span>
+            </div>
+        </div>
+        <!-- 右盒子 -->
+        <div class="box-right">
+            <!-- 右侧大图 -->
+            <img src="./images/big/01.jpg" class="bigImg" />
+        </div>
+    </div>
+
+    <script>
+        // 要求: 
+        // 1. 鼠标移上左上盒子以后,显示遮罩层,显示右盒子
+        // 2. 鼠标移出左上盒子以后,隐藏遮罩层,隐藏右盒子
+        // 3. 鼠标可以在左上盒子内部移动,遮罩层跟跟随鼠标移动  并且鼠标在遮罩层的中间
+        // 4. 遮罩层移动的时候不能超出盒子的边界
+        // 5. 难点 遮罩层移动的时候,  右盒子内部的大图片也要跟随反向移动
+        // 6. 小图列表需要实现选项卡功能,可以切换中图和大图
+        // 7. 小图列表左右箭头点击以后,可以切换小图列表上一页或者下一页图片列表
+
+        // 封装一个获取DOM对象的函数
+        function $(cssSelector) {
+            var dom = document.querySelectorAll(cssSelector);
+            if (dom.length === 0) {
+                return null;
+            }
+            if (dom.length === 1) {
+                return dom[0];
+            }
+
+            return dom;
+        }
+
+        // 左上部分 中盒子
+        var middleBox = $(".middle-box");
+        // 遮罩层
+        var mask = $(".mask");
+
+        // 右部分 大盒子
+        var boxRight = $(".box-right");
+
+        // 获取大图片
+        var bigImg = $(".bigImg");
+        // 获取中图片
+        var middleImg = $(".middleImg");
+
+        // 1. 鼠标移上左上盒子以后,显示遮罩层,显示右盒子
+        middleBox.onmouseover = function () {
+            // 显示遮罩层
+            boxRight.style.display = "block";
+            // 显示右盒子
+            mask.style.display = "block";
+        }
+        // 2. 鼠标移出左上盒子以后,隐藏遮罩层,隐藏右盒子
+        middleBox.onmouseout = function () {
+            // 隐藏遮罩层
+            boxRight.style.display = "none";
+            // 隐藏右盒子
+            mask.style.display = "none";
+        }
+
+        // 3. 鼠标可以在左上盒子内部移动,遮罩层跟跟随鼠标移动  并且鼠标在遮罩层的中间
+        // 4. 遮罩层移动的时候不能超出盒子的边界
+        // 5. 难点 遮罩层移动的时候,  右盒子内部的大图片也要跟随反向移动
+        middleBox.onmousemove = function (e) {
+            // 获取遮罩层宽度高度
+            var maskWidth = mask.clientWidth;
+            var maskHeight = mask.clientHeight;
+
+            // 遮罩层最大可移动水平方向距离
+            var maskMaxLeftVal = middleBox.clientWidth - maskWidth;
+            // 遮罩层最大可移动垂直方向距离
+            var maskMaxTopVal = middleBox.clientHeight - maskHeight;
+
+            // 获取鼠标在.middleBox盒子内部的坐标位置
+            // 注意: 这里我们使用e.offsetX 和 e.offsetY 实现的话  可能会出现闪烁问题
+            var maskX = e.pageX - middleBox.offsetLeft;
+            var maskY = e.pageY - middleBox.offsetTop;
+
+            // 鼠标移动到遮罩层的中间( 遮罩层移动的坐标距离位置 )
+            maskX = maskX - maskWidth / 2;
+            maskY = maskY - maskHeight / 2;
+
+            // 水平边界判断
+            if (maskX < 0) {
+                maskX = 0;
+            } else if (maskX > maskMaxLeftVal) {
+                maskX = maskMaxLeftVal;
+            }
+            // 垂直边界判断
+            if (maskY < 0) {
+                maskY = 0;
+            } else if (maskY > maskMaxTopVal) {
+                maskY = maskMaxTopVal;
+            }
+
+            // 设置遮罩层的left值和top值
+            mask.style.left = maskX + "px";
+            mask.style.top = maskY + "px";
+
+            // 大图最大允许移动距离
+            var bigImgMaxLeftVal = bigImg.clientWidth - boxRight.clientWidth;
+            var bigImgMaxTopVal = bigImg.clientHeight - boxRight.clientHeight;
+
+            // ❤❤❤  大图移动距离 = (mask当前移动的距离 * 大图片最大允许移动的距离) / mask最大允许移动距离
+            var bigImgX = (maskX * bigImgMaxLeftVal) / maskMaxLeftVal;
+            var bigImgY = (maskY * bigImgMaxTopVal) / maskMaxTopVal;
+
+            // 设置大图片的left值和top值
+            bigImg.style.left = -bigImgX + "px";
+            bigImg.style.top = -bigImgY + "px";
+        }
+
+        // 获取.imgList对象
+        var imgList = $(".imgList");
+        // 事件委托
+        imgList.onmouseover = function (e) {
+            // 判断触发对象是否为img标签对象
+            if (e.target.nodeName === "IMG") {
+                // 清除所有图片的active类名
+                for (var i = 0; i < imgList.children.length; i++) {
+                    imgList.children[i].classList.remove("active");
+                }
+                // 添加类名
+                e.target.classList.add("active");
+
+                // 获取小图片路径
+                var smallImgSrc = e.target.src;
+                // 设置中图图片路径
+                middleImg.src = smallImgSrc.replace("small", "middle");
+                // 设置大图图片路径
+                bigImg.src = smallImgSrc.replace("small", "big");
+            }
+        }
+
+        // 获取.imgListBox对象
+        var imgListBox = $(".imgListBox");
+        // 获取.imgListBox的宽度
+        var imgListBoxWidth = imgListBox.clientWidth;
+
+        // 获取左右箭头
+        var arrowLeft = $(".arrow-left");
+        var arrowRight = $(".arrow-right");
+
+        // 获取.imgList对象
+        var imgList = $(".imgList");
+
+        // 定义了一个索引号
+        var currentIndex = 0;
+
+        // 左箭头点击
+        arrowLeft.onclick = function () {
+            // 自减1
+            currentIndex--;
+            // 边界判断
+            if (currentIndex < 0) {
+                currentIndex = 0;
+            }
+            // 设置margin-left
+            imgList.style.marginLeft = -currentIndex * imgListBoxWidth + "px";
+        }
+
+        // 右箭头点击
+        arrowRight.onclick = function () {
+            // 自加1
+            currentIndex++;
+            // 边界判断
+            if (currentIndex > 1) {
+                currentIndex = 1;
+            }
+            // 设置margin-left
+            imgList.style.marginLeft = -currentIndex * imgListBoxWidth + "px";
+        }
+    </script>
+
+</body>
+
+</html>
