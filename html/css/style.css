@@ -602,7 +602,7 @@ ul.email li i {
 }
 
 #ho_nf:hover .portfolio_text {
-     height: 240px;
+     height: 180px;
      transition: ease-in all 0.5s;
      padding: 40px 40px;
 }
@@ -613,6 +613,7 @@ ul.email li i {
 }
 
 .portfolio_text {
+     width: 100%;
      cursor: pointer;
      position: absolute;
      transition: ease-in all 0.5s;

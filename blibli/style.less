@@ -1,76 +1,81 @@
-.all-label {
-    ul {
-        margin: 20px 0;
-        padding: 0;
-        list-style: none;
-        user-select: none;
+.box {
+    margin-left: 25px;
+    .all-label {
+        ul {
+            margin: 20px 0;
+            padding: 0;
+            list-style: none;
+            user-select: none;
 
-        .title {
-            color: gray;
-            float: left;
-            margin-right: 40px;
-        }
+            .title {
+                color: gray;
+                float: left;
+                margin-right: 40px;
+            }
 
-        &::after {
-            content: '';
-            display: block;
-            clear: both;
+            &::after {
+                content: '';
+                display: block;
+                clear: both;
 
-        }
+            }
 
-        li {
-            margin-right: 40px;
-            float: left;
-            // width: 40px;
-            cursor: pointer;
+            li {
+                margin-right: 40px;
+                float: left;
+                // width: 40px;
+                cursor: pointer;
 
-            &.active {
-                color: red;
+                &.active {
+                    color: red;
+                }
             }
         }
     }
-}
 
-.list {
-    margin: 40px 0;
-    padding: 0;
-    .not-find{
-        width: 800px;
-        margin: 0 25%;
-        margin-top: -10%;
-    }
-
-    .login-img {
-        width: 800px;
-        margin-left: 30%;
-    }
-
-    li {
-        // margin-top: 0;
-        list-style: none;
-        margin-right: 10px;
-        float: left;
-        margin-right: 20px;
+    .list {
+        margin: 40px 0;
         padding: 0;
-        height: 336px;
-        background-image: url(./images/preview.jpeg);
-        background-size: 224px ;
-        img {
-            width: 220px;
+
+        .not-find {
+            width: 800px;
+            margin: 0 25%;
+            margin-top: -10%;
         }
 
-        p {
-            width: 220px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: black;
-            margin-top: -1px;
+        .login-img {
+            width: 800px;
+            margin-left: 30%;
         }
 
-        a {
-            text-decoration: none;
-            color: black;
+        li {
+            // margin-top: 0;
+            list-style: none;
+            margin-right: 10px;
+            float: left;
+            margin-right: 20px;
+            padding: 0;
+            height: 336px;
+            background-image: url(./images/preview.jpeg);
+            background-size: 224px;
+
+            img {
+                width: 220px;
+            }
+
+            p {
+                width: 220px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: black;
+                margin-top: -1px;
+            }
+
+            a {
+                text-decoration: none;
+                color: black;
+            }
         }
     }
 }
