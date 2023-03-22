@@ -458,6 +458,10 @@ ul.email li i {
      padding: 0;
 }
 
+#bo_ho img{
+     width: 50px;
+     height: 50px;
+}
 #bo_ho:hover {
      border: #292a2c solid 1px;
      transition: ease-in all 0.5s;

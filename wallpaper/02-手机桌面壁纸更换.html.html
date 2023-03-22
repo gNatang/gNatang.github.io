@@ -91,28 +91,12 @@
                 <li><img src="images/10.jpg" /></li>
             </ul>
         </div>
-
     </div>
 
 
     <script>
         var imgs = document.querySelectorAll(".img_list ul li img");
         var bigImg = document.querySelector(".bigImg");
-        // for (var i = 0; i < imgs.length; i++) {
-        //     imgs[i].setAttribute("data-index", i);
-        //     imgs[i].onmouseover = function () {
-        //         num = this.getAttribute("data-index");
-        //         goto(num);
-        //     }
-        // }
-
-        // function goto(index) {
-        //     for (var j = 0; j < imgs.length; j++) {
-        //         imgs[j].classList.remove("active");
-        //     }
-        //     bigImg.src = imgs[index].src;
-        //     imgs[index].className = "active";
-        // }
         newTab(imgs,bigImg)
         function newTab(dom1, dom2) {
             for (var i = 0; i < dom1.length; i++) {

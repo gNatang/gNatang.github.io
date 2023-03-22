@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>仿淘宝轮播图</title>
     <style>
         * {
             margin: 0;
@@ -170,8 +170,6 @@
         // 默认显示图片1
         bannerImgUl.style.marginLeft = -bannerImgIndex * bannerWidth + "px";
 
-        // 要求:
-        // 功能1: 点击右侧按钮一次，就让图片滚动一张
         $(".arrow-right").onclick = function () {
             // 判断开关状态
             if (flag) {
@@ -180,16 +178,9 @@
 
                 // 自加1
                 bannerImgIndex++;
-
-                // 设置.bannerImg里面ul的margin-left值
-                // bannerImgUl.style.marginLeft = -bannerImgIndex * bannerWidth + "px";
-
                 animate(bannerImgUl, {
                     "margin-left": -bannerImgIndex * bannerWidth
                 }, function () {
-                    // 动画完成以后的回调函数
-                    // console.log("动画完成");
-                    // console.log("bannerImgIndex=>", bannerImgIndex);
                     if (bannerImgIndex >= 6) {
                         // 不带动画的回到真正的图片1
                         bannerImgIndex = 1;
@@ -200,9 +191,6 @@
                     // 动画完毕以后,修改开关状态
                     flag = true;
                 });
-
-                // 功能2: 点击右侧按钮,小圆圈跟随变化
-                // 自加1
                 circleIndex++;
                 // 小圆点边界判断
                 if (circleIndex >= 5) {
@@ -215,8 +203,6 @@
                 dotLis[circleIndex].classList.add("active");
             }
         }
-
-        // 功能3: 实现左侧按钮功能
         $(".arrow-left").onclick = function () {
             // 判断flag是否为true
             if (flag) {
@@ -254,9 +240,6 @@
             }
 
         }
-
-        // 功能4: 被点击小圆圈高亮,并且滚动到对应图片
-        // 设置高亮
         for (var i = 0; i < dotLis.length; i++) {
             // 设置自定义属性
             dotLis[i].setAttribute("data-index", i);
@@ -281,8 +264,6 @@
                 });
             }
         }
-
-        // 功能6: 自动播放功能
         var timerIntervalId;
         // 封装自动录播的函数
         function autoPlay() {
@@ -295,7 +276,6 @@
             }, 2000);
         }
 
-        // 开启自动轮播图
         autoPlay();
 
         // 封装停止录播的函数
@@ -312,9 +292,6 @@
         banner.onmouseout = function () {
             autoPlay();
         };
-
-        // 功能7: 防止轮播图左右按钮连续点击造成播放过快,添加节流阀功能
-        // 节流阀意思就是做一个开关(变量)  这个变量可以控制状态(状态至少有两种 比如打开状态 关闭状态)
     </script>
 </body>
 
